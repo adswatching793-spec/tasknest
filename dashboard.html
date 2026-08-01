@@ -1,46 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Dashboard - TaskNest</title>
+<title>TaskNest Dashboard</title>
 
 <link rel="stylesheet" href="style.css">
 
 </head>
 
+
 <body>
+
 
 <div class="container">
 
-<h1>TaskNest Dashboard</h1>
+<h1>TaskNest</h1>
 
-<p>Welcome! You are successfully logged in.</p>
+<h2>Dashboard</h2>
 
-<div>
-<h2>Your Tasks</h2>
-<p>No tasks available yet.</p>
-</div>
+<p id="userEmail">Loading...</p>
 
-<button onclick="logout()">
-Logout
+
+<div style="background:white;padding:20px;border-radius:12px;margin-top:20px;width:280px;">
+
+<h3>Available Tasks</h3>
+
+<p>Task system coming soon...</p>
+
+<button>
+Start Task
 </button>
 
 </div>
 
 
+<button onclick="logout()" style="margin-top:20px;">
+Logout
+</button>
+
+
+</div>
+
+
+
 <script type="module">
 
 import { auth } from "./firebase.js";
-import { signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+import { 
+onAuthStateChanged,
+signOut
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+
+
+onAuthStateChanged(auth,(user)=>{
+
+if(user){
+
+document.getElementById("userEmail").innerHTML =
+"Logged in: " + user.email;
+
+}else{
+
+window.location.href="login.html";
+
+}
+
+});
+
 
 
 window.logout = function(){
 
-signOut(auth)
-.then(()=>{
+signOut(auth).then(()=>{
 
 window.location.href="login.html";
 
@@ -48,7 +85,10 @@ window.location.href="login.html";
 
 }
 
+
 </script>
 
+
 </body>
+
 </html>
