@@ -1,1 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
 
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Dashboard - TaskNest</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>TaskNest Dashboard</h1>
+
+<p>Welcome! You are successfully logged in.</p>
+
+<div>
+<h2>Your Tasks</h2>
+<p>No tasks available yet.</p>
+</div>
+
+<button onclick="logout()">
+Logout
+</button>
+
+</div>
+
+
+<script type="module">
+
+import { auth } from "./firebase.js";
+import { signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+
+window.logout = function(){
+
+signOut(auth)
+.then(()=>{
+
+window.location.href="login.html";
+
+});
+
+}
+
+</script>
+
+</body>
+</html>
