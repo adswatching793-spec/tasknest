@@ -17,17 +17,50 @@
 
 <h1>TaskNest Login</h1>
 
-<input type="email" placeholder="Enter Email" style="padding:12px;width:250px;margin:10px;">
+<input id="email" type="email" placeholder="Enter Email" style="padding:12px;width:250px;margin:10px;">
 <br>
 
-<input type="password" placeholder="Enter Password" style="padding:12px;width:250px;margin:10px;">
+<input id="password" type="password" placeholder="Enter Password" style="padding:12px;width:250px;margin:10px;">
 <br>
 
-<button>
+<button id="loginBtn">
 Login
 </button>
 
 </div>
+
+
+<script type="module">
+
+import { auth } from "./firebase.js";
+import { signInWithEmailAndPassword } 
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+
+document.getElementById("loginBtn").addEventListener("click", () => {
+
+const email = document.getElementById("email").value;
+const password = document.getElementById("password").value;
+
+
+signInWithEmailAndPassword(auth, email, password)
+
+.then(() => {
+
+alert("Login Successful");
+
+})
+
+.catch((error) => {
+
+alert(error.message);
+
+});
+
+
+});
+
+</script>
 
 </body>
 </html>
