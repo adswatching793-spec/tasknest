@@ -15,30 +15,20 @@
 
 <body>
 
-
 <div class="container">
 
-<h1>TaskNest</h1>
-
-<h2>Dashboard</h2>
+<h1>TaskNest Dashboard</h1>
 
 <p id="userEmail">Loading...</p>
 
+<h2>Available Tasks</h2>
 
-<div style="background:white;padding:20px;border-radius:12px;margin-top:20px;width:280px;">
-
-<h3>Available Tasks</h3>
-
-<p>Task system coming soon...</p>
-
-<button>
-Start Task
-</button>
-
+<div id="taskList">
+Loading tasks...
 </div>
 
 
-<button onclick="logout()" style="margin-top:20px;">
+<button onclick="logout()">
 Logout
 </button>
 
@@ -46,15 +36,20 @@ Logout
 </div>
 
 
-
 <script type="module">
 
-import { auth } from "./firebase.js";
+import { auth, db } from "./firebase.js";
 
 import { 
 onAuthStateChanged,
 signOut
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+
+import {
+collection,
+getDocs
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
 
@@ -65,6 +60,8 @@ if(user){
 document.getElementById("userEmail").innerHTML =
 "Logged in: " + user.email;
 
+loadTasks();
+
 }else{
 
 window.location.href="login.html";
@@ -72,6 +69,46 @@ window.location.href="login.html";
 }
 
 });
+
+
+
+async function loadTasks(){
+
+const querySnapshot = await getDocs(collection(db,"tasks"));
+
+let html = "";
+
+
+querySnapshot.forEach((doc)=>{
+
+let task = doc.data();
+
+
+html += `
+
+<div style="background:white;padding:15px;margin:10px;border-radius:10px;">
+
+<h3>${task.title}</h3>
+
+<p>Reward: ${task.reward}</p>
+
+<p>Status: ${task.status}</p>
+
+<button>
+Start Task
+</button>
+
+</div>
+
+`;
+
+});
+
+
+document.getElementById("taskList").innerHTML = html;
+
+
+}
 
 
 
