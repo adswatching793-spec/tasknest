@@ -3,12 +3,12 @@ import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-aut
 import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyDzjMbnP8sqs3WxOaTWou5yZGHzBzET4us",
+  authDomain: "tasknest-e58e3.firebaseapp.com",
+  projectId: "tasknest-e58e3",
+  storageBucket: "tasknest-e58e3.firebasestorage.app",
+  messagingSenderId: "779816788050",
+  appId: "1:779816788050:web:bce8e848653cacdee97f8b"
 };
 
 const app = initializeApp(firebaseConfig);
