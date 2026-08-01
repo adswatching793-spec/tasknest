@@ -82,7 +82,7 @@ let html = "";
 querySnapshot.forEach((doc)=>{
 
 let task = doc.data();
-  
+  document.getElementById("taskList").innerHTML = JSON.stringify(task);
 
 
 html += `
