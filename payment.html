@@ -71,5 +71,73 @@ Submit Payment
 
 </div>
 
-</body>
+<script type="module">
+
+import { auth, db } from "./firebase.js";
+
+import {
+onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+import {
+doc,
+setDoc,
+getDoc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+let currentUser = null;
+let selectedPlan = null;
+
+
+onAuthStateChanged(auth, async(user)=>{
+
+if(!user){
+window.location.href="login.html";
+return;
+}
+
+currentUser = user;
+
+const planRef = doc(db,"selectedPlans",user.email);
+
+const planSnap = await getDoc(planRef);
+
+if(planSnap.exists()){
+selectedPlan = planSnap.data();
+}
+
+});
+
+
+document.getElementById("submitBtn").onclick = async function(){
+
+const file = document.getElementById("screenshot").files[0];
+
+if(!file){
+alert("Please upload payment screenshot");
+return;
+}
+
+await setDoc(doc(db,"payments",currentUser.email),{
+
+email: currentUser.email,
+
+plan: selectedPlan.plan,
+
+deposit: selectedPlan.deposit,
+
+status:"Pending",
+
+screenshot:file.name,
+
+date:new Date().toISOString()
+
+});
+
+alert("Payment Submitted Successfully!");
+
+};
+
+  </script></body>
 </html>
