@@ -141,7 +141,9 @@ let btn = document.getElementById("complete");
 btn.disabled = false;
 
 btn.innerHTML = "Claim Reward";
-localStorage.setItem("video2","done");
+await updateDoc(userRef,{
+  [`completedVideos.video1`]: true
+});
 
 btn.onclick = async function(){
   if(localStorage.getItem("video1")=="done"){
