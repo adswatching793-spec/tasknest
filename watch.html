@@ -1,1 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Watch Video - TaskNest</title>
+
+<style>
+
+body{
+    margin:0;
+    padding:20px;
+    font-family:Arial,sans-serif;
+    background:#f5f7fb;
+}
+
+
+.container{
+    max-width:500px;
+    margin:auto;
+    text-align:center;
+}
+
+
+.video-box{
+
+    background:#000;
+    height:250px;
+    border-radius:15px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    font-size:22px;
+    margin-top:20px;
+
+}
+
+
+.timer{
+
+    margin-top:20px;
+    font-size:25px;
+    color:#2563eb;
+    font-weight:bold;
+
+}
+
+
+button{
+
+    margin-top:20px;
+    padding:12px 30px;
+    border:none;
+    border-radius:10px;
+    background:#2563eb;
+    color:white;
+    font-size:18px;
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+<h1>Watch Video</h1>
+
+
+<div class="video-box">
+
+Demo Advertisement Video
+
+</div>
+
+
+<div class="timer" id="timer">
+
+02:00
+
+</div>
+
+
+<button id="complete" disabled>
+
+Complete Task
+
+</button>
+
+
+</div>
+
+
+
+
+
+<script>
+
+
+let time = 120;
+
+
+let timer = setInterval(()=>{
+
+
+let minutes = Math.floor(time/60);
+
+let seconds = time%60;
+
+
+document.getElementById("timer").innerHTML =
+
+minutes + ":" + (seconds < 10 ? "0"+seconds : seconds);
+
+
+
+if(time <= 0){
+
+
+clearInterval(timer);
+
+
+document.getElementById("complete").disabled=false;
+
+
+document.getElementById("complete").innerHTML="Task Completed";
+
+
+}
+
+
+time--;
+
+
+},1000);
+
+
+
+</script>
+
+
+</body>
+
+</html>
