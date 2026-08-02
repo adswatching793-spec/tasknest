@@ -118,7 +118,20 @@ document.getElementById("taskList").innerHTML = html;
 }
 
 
+async function loadBalance(email){
 
+const userRef = doc(db, "users", email);
+
+const userSnap = await getDoc(userRef);
+
+if(userSnap.exists()){
+
+document.getElementById("balance").innerHTML =
+"PKR " + userSnap.data().balance;
+
+}
+
+}
 window.logout = function(){
 
 signOut(auth).then(()=>{
