@@ -1,1 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payment</title>
 
+<style>
+body{
+margin:0;
+padding:20px;
+font-family:Arial,sans-serif;
+background:#0f172a;
+color:white;
+}
+
+.container{
+max-width:500px;
+margin:auto;
+background:#1e293b;
+padding:20px;
+border-radius:15px;
+}
+
+input{
+width:100%;
+padding:12px;
+margin:10px 0;
+border:none;
+border-radius:8px;
+}
+
+button{
+width:100%;
+padding:14px;
+background:#2563eb;
+color:white;
+border:none;
+border-radius:10px;
+font-size:18px;
+cursor:pointer;
+}
+
+.info{
+background:#334155;
+padding:15px;
+border-radius:10px;
+margin-bottom:20px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Activate Your Plan</h2>
+
+<div class="info">
+<p><b>Payment Method:</b> Easypaisa</p>
+<p><b>Account Name:</b> (Yahan apna naam likhna)</p>
+<p><b>Account Number:</b> (Yahan apna Easypaisa number likhna)</p>
+</div>
+
+<label>Upload Payment Screenshot</label>
+<input type="file" id="screenshot" accept="image/*">
+
+<button id="submitBtn">
+Submit Payment
+</button>
+
+</div>
+
+</body>
+</html>
