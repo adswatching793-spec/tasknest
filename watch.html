@@ -157,6 +157,7 @@ const currentBalance = Number(userSnap.data().balance || 0);
 await updateDoc(userRef,{
 balance: currentBalance + 1000
 });
+  btn.innerHTML = "Reward Claimed";
 
 alert("Congratulations! 1000 PKR Added Successfully.");
 
