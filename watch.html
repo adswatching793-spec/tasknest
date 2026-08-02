@@ -164,6 +164,7 @@ const currentBalance = Number(userSnap.data().balance || 0);
 await updateDoc(userRef,{
 balance: currentBalance + 1000
 });
+  console.log("saved");
   localStorage.setItem("video1","done");
   btn.innerHTML = "Reward Claimed";
 
