@@ -11,55 +11,49 @@
 <style>
 
 body{
-    margin:0;
-    padding:20px;
-    font-family:Arial,sans-serif;
-    background:#f5f7fb;
+margin:0;
+padding:20px;
+font-family:Arial,sans-serif;
+background:#f5f7fb;
 }
-
 
 .container{
-    max-width:500px;
-    margin:auto;
-    text-align:center;
+max-width:500px;
+margin:auto;
+text-align:center;
 }
-
 
 .video-box{
-
-    background:#000;
-    height:250px;
-    border-radius:15px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:white;
-    font-size:22px;
-    margin-top:20px;
-
+background:#000;
+height:250px;
+border-radius:15px;
+display:flex;
+align-items:center;
+justify-content:center;
+color:white;
+font-size:22px;
+margin-top:20px;
 }
-
 
 .timer{
-
-    margin-top:20px;
-    font-size:25px;
-    color:#2563eb;
-    font-weight:bold;
-
+margin-top:20px;
+font-size:25px;
+color:#2563eb;
+font-weight:bold;
 }
 
-
 button{
+margin-top:20px;
+padding:12px 30px;
+border:none;
+border-radius:10px;
+background:#2563eb;
+color:white;
+font-size:18px;
+}
 
-    margin-top:20px;
-    padding:12px 30px;
-    border:none;
-    border-radius:10px;
-    background:#2563eb;
-    color:white;
-    font-size:18px;
-
+button:disabled{
+background:#999;
 }
 
 </style>
@@ -84,23 +78,16 @@ Demo Advertisement Video
 
 
 <div class="timer" id="timer">
-
 02:00
-
 </div>
 
 
 <button id="complete" disabled>
-
 Complete Task
-
 </button>
 
 
 </div>
-
-
-
 
 
 <script>
@@ -109,16 +96,15 @@ Complete Task
 let time = 120;
 
 
-let timer = setInterval(()=>{
+let timer = setInterval(function(){
 
 
-let minutes = Math.floor(time/60);
+let minutes = Math.floor(time / 60);
 
-let seconds = time%60;
+let seconds = time % 60;
 
 
 document.getElementById("timer").innerHTML =
-
 minutes + ":" + (seconds < 10 ? "0"+seconds : seconds);
 
 
@@ -129,11 +115,24 @@ if(time <= 0){
 clearInterval(timer);
 
 
-document.getElementById("complete").disabled=false;
+document.getElementById("timer").innerHTML = "Completed";
 
 
-document.getElementById("complete").innerHTML="Task Completed";
+let btn = document.getElementById("complete");
 
+btn.disabled = false;
+
+btn.innerHTML = "Claim Reward";
+
+
+btn.onclick = function(){
+
+alert("Task Completed Successfully");
+
+};
+
+
+return;
 
 }
 
