@@ -146,7 +146,7 @@ await updateDoc(userRef,{
 });
 
 btn.onclick = async function(){
-  if(userSnap.exists() && userSnap.data().completedVideos?.video1 == true){
+  if(localStorage.getItem("video1")=="done"){
 alert("You have already claimed this reward.");
 window.location.href="dashboard.html";
 return;
