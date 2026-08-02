@@ -2,16 +2,11 @@
 <html lang="en">
 
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>TaskNest Dashboard</title>
-
 <link rel="stylesheet" href="style.css">
-
 </head>
-
 
 <body>
 
@@ -20,34 +15,32 @@
 <h1>TaskNest Dashboard</h1>
 
 <p id="userEmail">Loading...</p>
+
 <div style="background:#2563eb;color:white;padding:15px;border-radius:12px;margin:15px 0;text-align:center;">
-    <h2>Balance</h2>
-    <h1 id="balance">PKR 0</h1>
+<h2>Balance</h2>
+<h1 id="balance">PKR 0</h1>
 </div>
+
 <h2>Available Tasks</h2>
 
 <div id="taskList">
 Loading tasks...
 </div>
 
-
 <button onclick="logout()">
 Logout
 </button>
 
-
 </div>
-
 
 <script type="module">
 
 import { auth, db } from "./firebase.js";
 
-import { 
+import {
 onAuthStateChanged,
 signOut
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
 
 import {
 collection,
@@ -56,17 +49,16 @@ doc,
 getDoc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-
-
-onAuthStateChanged(auth,(user)=>{
+onAuthStateChanged(auth, async (user)=>{
 
 if(user){
 
-document.getElementById("balance").textContent = "PKR " + userSnap.data().balance;
+document.getElementById("userEmail").innerHTML =
+"Logged in: " + user.email;
 
-loadTasks();
-    alert(user.email);
-    
+await loadBalance(user.email);
+
+await loadTasks();
 
 }else{
 
@@ -76,63 +68,64 @@ window.location.href="login.html";
 
 });
 
-
-
 async function loadTasks(){
 
 const querySnapshot = await getDocs(collection(db,"tasks"));
 
 let html = "";
 
-
 querySnapshot.forEach((doc)=>{
 
-let task = doc.data();
-
-
+const task = doc.data();
 
 html += `
-
 <div style="background:white;padding:15px;margin:10px;border-radius:10px;">
-
 <h3>${task.title}</h3>
-
 <p>Reward: ${task.reward}</p>
-
 <p>Status: ${task.status}</p>
 
-<button onclick="alert('Video Task System Coming Soon')" style="background:#2563eb;color:white;padding:10px 20px;border:none;border-radius:8px;cursor:pointer;">
+<button onclick="alert('Video Task System Coming Soon')" style="background:#2563eb;color:white;padding:10px 20px;border:none;border-radius:8px;">
 Start Task
 </button>
 
 </div>
-
 `;
 
 });
 
-
 document.getElementById("taskList").innerHTML = html;
 
-
 }
-
 
 async function loadBalance(email){
 
-const userRef = doc(db, "users", email);
+try{
+
+const userRef = doc(db,"users",email);
 
 const userSnap = await getDoc(userRef);
-    alert(userSnap.exists());
 
 if(userSnap.exists()){
 
-document.getElementById("balance").innerHTML =
+document.getElementById("balance").textContent =
 "PKR " + userSnap.data().balance;
 
+}else{
+
+document.getElementById("balance").textContent =
+"PKR 0";
+
+}
+
+}catch(e){
+
+document.getElementById("balance").textContent =
+"PKR 0";
+
 }
 
 }
+
 window.logout = function(){
 
 signOut(auth).then(()=>{
@@ -143,10 +136,7 @@ window.location.href="login.html";
 
 }
 
-
 </script>
 
-
 </body>
-
 </html>
