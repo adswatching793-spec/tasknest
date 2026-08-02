@@ -143,9 +143,27 @@ btn.disabled = false;
 btn.innerHTML = "Claim Reward";
 
 
-btn.onclick = function(){
+btn.onclick = async function(){
 
-alert("Task Completed Successfully");
+const userRef = doc(db, "users", currentUser.email);
+
+const userSnap = await getDoc(userRef);
+
+if(userSnap.exists()){
+
+const currentBalance = Number(userSnap.data().balance || 0);
+
+await updateDoc(userRef,{
+balance: currentBalance + 1000
+});
+
+alert("Congratulations! 1000 PKR Added Successfully.");
+
+window.location.href = "dashboard.html";
+
+}
+
+};
 
 };
 
