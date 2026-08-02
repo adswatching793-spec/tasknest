@@ -4,43 +4,162 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>TaskNest Dashboard</title>
+
 <link rel="stylesheet" href="style.css">
+
+<style>
+
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:linear-gradient(135deg,#0f172a,#1e293b);
+color:white;
+}
+
+.container{
+width:92%;
+max-width:500px;
+margin:auto;
+padding:20px;
+}
+
+h1{
+text-align:center;
+}
+
+.user-box{
+background:#111827;
+padding:12px;
+border-radius:12px;
+text-align:center;
+margin-bottom:15px;
+}
+
+.balance-box{
+background:linear-gradient(135deg,#2563eb,#1d4ed8);
+padding:20px;
+border-radius:18px;
+text-align:center;
+box-shadow:0 5px 20px rgba(0,0,0,.3);
+margin-bottom:20px;
+}
+
+.balance-box h1{
+font-size:34px;
+margin:5px;
+}
+
+.task-title{
+margin-top:20px;
+}
+
+.task-card{
+
+background:#ffffff;
+color:#111827;
+padding:15px;
+margin:12px 0;
+border-radius:15px;
+box-shadow:0 5px 15px rgba(0,0,0,.2);
+
+}
+
+.task-card button{
+
+width:100%;
+padding:12px;
+border:0;
+border-radius:10px;
+background:#2563eb;
+color:white;
+font-size:16px;
+
+}
+
+
+.logout{
+
+width:100%;
+margin-top:20px;
+padding:12px;
+border:0;
+border-radius:10px;
+background:#ef4444;
+color:white;
+font-size:16px;
+
+}
+
+
+</style>
+
 </head>
+
 
 <body>
 
+
 <div class="container">
+
 
 <h1>TaskNest Dashboard</h1>
 
+
+<div class="user-box">
+
 <p id="userEmail">Loading...</p>
 
-<div style="background:#2563eb;color:white;padding:15px;border-radius:12px;margin:15px 0;text-align:center;">
-<h2>Balance</h2>
-<h1 id="balance" style="color:white;font-size:32px;font-weight:bold;">PKR 0</h1>
 </div>
 
-<h2>Available Tasks</h2>
+
+
+<div class="balance-box">
+
+<h2>Balance</h2>
+
+<h1 id="balance">PKR 0</h1>
+
+</div>
+
+
+
+<h2 class="task-title">
+Available Tasks
+</h2>
+
+
 
 <div id="taskList">
 Loading tasks...
 </div>
 
-<button onclick="logout()">
+
+
+<button class="logout" onclick="logout()">
 Logout
 </button>
 
+
+
 </div>
+
+
+
+
 
 <script type="module">
 
+
 import { auth, db } from "./firebase.js";
+
 
 import {
 onAuthStateChanged,
 signOut
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
 
 import {
 collection,
@@ -49,94 +168,181 @@ doc,
 getDoc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-onAuthStateChanged(auth, async (user)=>{
+
+
+onAuthStateChanged(auth, async(user)=>{
+
 
 if(user){
 
+
 document.getElementById("userEmail").innerHTML =
 "Logged in: " + user.email;
+
 
 await loadBalance(user.email);
 
 await loadTasks();
 
+
 }else{
+
 
 window.location.href="login.html";
 
+
 }
 
+
 });
+
+
+
+
 
 async function loadTasks(){
 
+
 const querySnapshot = await getDocs(collection(db,"tasks"));
 
-let html = "";
+
+let tasks=[];
+
 
 querySnapshot.forEach((doc)=>{
 
-const task = doc.data();
 
-html += `
-<div style="background:white;padding:15px;margin:10px;border-radius:10px;">
-<h3>${task.title}</h3>
-<p>Reward: ${task.reward}</p>
-<p>Status: ${task.status}</p>
+tasks.push(doc.data());
 
-<button onclick="alert('Video Task System Coming Soon')" style="background:#2563eb;color:white;padding:10px 20px;border:none;border-radius:8px;">
-Start Task
-</button>
-
-</div>
-`;
 
 });
 
-document.getElementById("taskList").innerHTML = html;
+
+// Video order fix
+
+tasks.sort((a,b)=>{
+
+
+let A=parseInt(a.title.match(/\d+/)) || 0;
+
+let B=parseInt(b.title.match(/\d+/)) || 0;
+
+
+return A-B;
+
+
+});
+
+
+
+let html="";
+
+
+
+tasks.forEach((task)=>{
+
+
+html += `
+
+<div class="task-card">
+
+
+<h3>${task.title}</h3>
+
+<p>Reward: ${task.reward}</p>
+
+<p>Status: ${task.status}</p>
+
+
+
+<button onclick="alert('Video Task System Coming Soon')">
+
+Start Task
+
+</button>
+
+
+</div>
+
+`;
+
+
+});
+
+
+
+document.getElementById("taskList").innerHTML=html;
+
 
 }
 
+
+
+
+
+
 async function loadBalance(email){
+
 
 try{
 
+
 const userRef = doc(db,"users",email);
+
 
 const userSnap = await getDoc(userRef);
 
+
+
 if(userSnap.exists()){
+
 
 document.getElementById("balance").textContent =
 "PKR " + userSnap.data().balance;
 
+
 }else{
 
-document.getElementById("balance").textContent =
-"PKR 0";
+
+document.getElementById("balance").textContent="PKR 0";
+
 
 }
+
 
 }catch(e){
 
-document.getElementById("balance").textContent =
-"PKR 0";
+
+document.getElementById("balance").textContent="PKR 0";
+
 
 }
 
+
 }
 
-window.logout = function(){
+
+
+
+
+window.logout=function(){
+
 
 signOut(auth).then(()=>{
 
+
 window.location.href="login.html";
+
 
 });
 
+
 }
 
+
+
 </script>
+
 
 </body>
 </html>
