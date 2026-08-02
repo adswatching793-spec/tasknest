@@ -141,7 +141,7 @@ let btn = document.getElementById("complete");
 btn.disabled = false;
 
 btn.innerHTML = "Claim Reward";
-
+localStorage.setItem("video1","done");
 
 btn.onclick = async function(){
   if(localStorage.getItem("video1")=="done"){
