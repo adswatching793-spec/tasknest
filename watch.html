@@ -144,6 +144,7 @@ btn.innerHTML = "Claim Reward";
 
 
 btn.onclick = async function(){
+  btn.disabled = true;
 
 const userRef = doc(db, "users", currentUser.email);
 
