@@ -124,6 +124,7 @@ async function loadBalance(email){
 const userRef = doc(db, "users", email);
 
 const userSnap = await getDoc(userRef);
+    alert(userSnap.exists());
 
 if(userSnap.exists()){
 
