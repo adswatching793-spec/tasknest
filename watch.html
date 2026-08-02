@@ -151,7 +151,7 @@ return;
   }
   btn.disabled = true;
   
-alert(currentUser.email);
+
 const userRef = doc(db, "users", currentUser.email);
 
 const userSnap = await getDoc(userRef);
