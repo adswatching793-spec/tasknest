@@ -62,8 +62,7 @@ onAuthStateChanged(auth,(user)=>{
 
 if(user){
 
-document.getElementById("userEmail").innerHTML =
-"Logged in: " + user.email;
+document.getElementById("balance").textContent = "PKR " + userSnap.data().balance;
 
 loadTasks();
     alert(user.email);
