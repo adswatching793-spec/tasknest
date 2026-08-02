@@ -144,6 +144,11 @@ btn.innerHTML = "Claim Reward";
 
 
 btn.onclick = async function(){
+  if(localStorage.getItem("video1")=="done"){
+alert("You have already claimed this reward.");
+window.location.href="dashboard.html";
+return;
+  }
   btn.disabled = true;
 
 const userRef = doc(db, "users", currentUser.email);
