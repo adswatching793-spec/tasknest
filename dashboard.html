@@ -217,7 +217,33 @@ window.location.href="login.html";
 
 
 
+async function checkPlan(email){
 
+const planRef = doc(db,"selectedPlans",email);
+
+const planSnap = await getDoc(planRef);
+
+
+if(planSnap.exists() && planSnap.data().status=="Active"){
+
+await loadTasks();
+
+}else{
+
+document.getElementById("taskList").innerHTML = 
+`
+<div style="text-align:center;padding:20px;">
+<h2>No Active Plan</h2>
+<p>Please activate your plan first.</p>
+<button onclick="window.location.href='plans.html'">
+Activate Plan
+</button>
+</div>
+`;
+
+}
+
+    }
 
 async function loadTasks(){
 
