@@ -108,7 +108,7 @@ const userSnap = await getDoc(userRef);
 if(userSnap.exists()){
 
 document.getElementById("balance").textContent =
-"PKR " + userSnap.data().balance;
+"PKR " + JSON.stringify(userSnap.data());
 
 }else{
 
