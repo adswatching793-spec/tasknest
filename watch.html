@@ -155,11 +155,6 @@ return;
   btn.disabled = true;
   
 
-const userRef = doc(db, "users", currentUser.email);
-
-const userSnap = await getDoc(userRef);
-  
-
 if(userSnap.exists()){
 
 const currentBalance = Number(userSnap.data().balance || 0);
