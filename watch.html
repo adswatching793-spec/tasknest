@@ -144,7 +144,10 @@ btn.innerHTML = "Claim Reward";
 
 
 btn.onclick = async function(){
-  if(localStorage.getItem("video1")=="done"){
+  const userRef = doc(db, "users", currentUser.email);
+const userSnap = await getDoc(userRef);
+
+if(userSnap.exists() && userSnap.data().completedVideos?.video1){
 alert("You have already claimed this reward.");
 window.location.href="dashboard.html";
 return;
@@ -168,7 +171,7 @@ balance: currentBalance + 1000
   [`completedVideos.video1`]: true
 });
   console.log("saved");
-  localStorage.setItem("video1","done");
+  
   btn.innerHTML = "Reward Claimed";
 
 alert("Congratulations! 1000 PKR Added Successfully.");
