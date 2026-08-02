@@ -155,7 +155,7 @@ return;
 const userRef = doc(db, "users", currentUser.email);
 
 const userSnap = await getDoc(userRef);
-  alert(userSnap.data().balance);
+  
 
 if(userSnap.exists()){
 
