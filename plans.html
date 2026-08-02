@@ -1,1 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TaskNest - Select Plan</title>
 
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#0f172a;
+color:#fff;
+padding:20px;
+}
+
+.container{
+max-width:500px;
+margin:auto;
+}
+
+.title{
+text-align:center;
+font-size:30px;
+font-weight:bold;
+margin-bottom:10px;
+}
+
+.subtitle{
+text-align:center;
+color:#cbd5e1;
+margin-bottom:25px;
+}
+
+.plan{
+background:#1e293b;
+border:2px solid #334155;
+border-radius:15px;
+padding:18px;
+margin-bottom:20px;
+box-shadow:0 5px 15px rgba(0,0,0,.3);
+transition:.3s;
+}
+
+.plan:hover{
+border-color:#3b82f6;
+transform:translateY(-3px);
+}
+
+.plan h2{
+color:#38bdf8;
+margin-bottom:10px;
+}
+
+.plan p{
+margin:8px 0;
+font-size:16px;
+}
+
+.price{
+font-size:24px;
+font-weight:bold;
+color:#22c55e;
+margin:10px 0;
+}
+
+.btn{
+width:100%;
+padding:14px;
+border:none;
+border-radius:10px;
+background:#2563eb;
+color:#fff;
+font-size:18px;
+cursor:pointer;
+font-weight:bold;
+}
+
+.btn:hover{
+background:#1d4ed8;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="title">
+🔥 TaskNest Plans
+</div>
+
+<div class="subtitle">
+Choose your package and activate your account
+</div>
+
+<div class="plan">
+<h2>📌 Plan 1</h2>
+
+<div class="price">
+Deposit: PKR 2,000
+</div>
+
+<p>💰 Daily Earning: PKR 1,200</p>
+
+<p>🎥 10 Video Tasks</p>
+
+<p>📝 5 Quiz Tasks</p>
+
+<p>🎁 Daily Check-in</p>
+
+<p>📅 Package: 30 Days</p>
+
+<button class="btn" onclick="selectPlan('Plan 1',2000)">
+Activate Plan
+</button>
+
+</div>
+
+<div class="plan">
+<h2>📌 Plan 2</h2>
+
+<div class="price">
+Deposit: PKR 3,500
+</div>
+
+<p>💰 Daily Earning: PKR 2,100</p>
+
+<p>🎥 15 Video Tasks</p>
+
+<p>📝 8 Quiz Tasks</p>
+
+<p>🎁 Daily Check-in</p>
+
+<p>📅 Package: 30 Days</p>
+
+<button class="btn" onclick="selectPlan('Plan 2',3500)">
+Activate Plan
+</button>
+
+</div>
+<div class="plan">
+<h2>📌 Plan 3</h2>
+
+<div class="price">
+Deposit: PKR 5,000
+</div>
+
+<p>💰 Daily Earning: PKR 3,200</p>
+
+<p>🎥 20 Video Tasks</p>
+
+<p>📝 10 Quiz Tasks</p>
+
+<p>🎁 Daily Check-in</p>
+
+<p>📅 Package: 30 Days</p>
+
+<button class="btn" onclick="selectPlan('Plan 3',5000)">
+Activate Plan
+</button>
+
+</div>
+
+
+<div class="plan">
+<h2>📌 Plan 4</h2>
+
+<div class="price">
+Deposit: PKR 8,000
+</div>
+
+<p>💰 Daily Earning: PKR 5,500</p>
+
+<p>🎥 30 Video Tasks</p>
+
+<p>📝 15 Quiz Tasks</p>
+
+<p>🎁 Daily Check-in</p>
+
+<p>📅 Package: 30 Days</p>
+
+<button class="btn" onclick="selectPlan('Plan 4',8000)">
+Activate Plan
+</button>
+
+</div>
+
+
+<div class="plan">
+<h2>👑 Plan 5 (VIP)</h2>
+
+<div class="price">
+Deposit: PKR 12,000
+</div>
+
+<p>💰 Daily Earning: PKR 8,500</p>
+
+<p>🎥 40 Video Tasks</p>
+
+<p>📝 20 Quiz Tasks</p>
+
+<p>🎁 Daily Check-in</p>
+
+<p>⚡ Priority Withdraw</p>
+
+<p>📅 Package: 30 Days</p>
+
+<button class="btn" onclick="selectPlan('Plan 5 VIP',12000)">
+Activate VIP Plan
+</button>
+
+</div>
+
+</div>
+<script type="module">
+
+import { auth, db } from "./firebase.js";
+
+import {
+onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+import {
+doc,
+setDoc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+let currentUser = null;
+
+onAuthStateChanged(auth,(user)=>{
+
+if(!user){
+window.location.href="login.html";
+return;
+}
+
+currentUser = user;
+
+});
+
+window.selectPlan = async function(planName,deposit){
+
+if(!currentUser){
+alert("Please login first.");
+return;
+}
+
+await setDoc(doc(db,"selectedPlans",currentUser.email),{
+
+email: currentUser.email,
+
+plan: planName,
+
+deposit: deposit,
+
+status:"Pending",
+
+date: new Date().toISOString()
+
+});
+
+alert("Plan Selected Successfully!");
+
+window.location.href="payment.html";
+
+}
+
+</script>
+
+</body>
+</html>
