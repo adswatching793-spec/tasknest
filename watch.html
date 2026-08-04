@@ -151,8 +151,7 @@ const userSnap = await getDoc(userRef);
     return;
   }
 
-if(userSnap.exists() && userSnap.data().completedVideos?.video1){
-alert("You have already claimed this reward.");
+
 window.location.href="dashboard.html";
 return;
   }
