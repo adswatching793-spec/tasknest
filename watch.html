@@ -107,6 +107,14 @@ return;
 }
 
 currentUser = user;
+  const userRef = doc(db,"users",user.email);
+const userSnap = await getDoc(userRef);
+
+if(userSnap.exists() && userSnap.data().completedVideos?.video1 === true){
+    alert("Video already completed");
+    window.location.replace("dashboard.html");
+    return;
+}
 
 });
 
