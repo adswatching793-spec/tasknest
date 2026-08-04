@@ -147,6 +147,7 @@ btn.innerHTML="Claim Reward";
 
 
 btn.onclick = async function(){
+  videoCompleted = true;
 
 
 const userRef = doc(db,"users",currentUser.email);
