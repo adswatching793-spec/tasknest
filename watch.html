@@ -60,64 +60,65 @@ background:#999;
 
 </head>
 
-
 <body>
-
 
 <div class="container">
 
-
 <h1>Watch Video</h1>
 
-
 <div class="video-box">
-
 Demo Advertisement Video
-
 </div>
-
 
 <div class="timer" id="timer">
 02:00
 </div>
 
-
 <button id="complete" disabled>
 Complete Task
 </button>
-
 
 </div>
 
 
 <script type="module">
-  import { auth, db } from "./firebase.js";
 
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-  import {
+import { auth, db } from "./firebase.js";
+
+import { onAuthStateChanged } 
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+import { 
 doc,
 getDoc,
 updateDoc
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-  let currentUser = null;
+} 
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-onAuthStateChanged(auth, (user) => {
-    if (!user) {
-        window.location.href = "login.html";
-        return;
-    }
 
-    currentUser = user;
+let currentUser = null;
+
+
+onAuthStateChanged(auth,(user)=>{
+
+if(!user){
+window.location.href="login.html";
+return;
+}
+
+currentUser = user;
+
 });
+
 
 
 let time = 120;
 
 
-let timer = setInterval(function(){
+let timer = setInterval(()=>{
 
 
-let minutes = Math.floor(time / 60);
+let minutes = Math.floor(time/60);
 
 let seconds = time % 60;
 
@@ -133,55 +134,75 @@ if(time <= 0){
 clearInterval(timer);
 
 
-document.getElementById("timer").innerHTML = "Completed";
+document.getElementById("timer").innerHTML="Completed";
 
 
 let btn = document.getElementById("complete");
 
-btn.disabled = false;
 
-btn.innerHTML = "Claim Reward";
+btn.disabled=false;
+
+btn.innerHTML="Claim Reward";
+
 
 
 btn.onclick = async function(){
-  const userRef = doc(db, "users", currentUser.email);
+
+
+const userRef = doc(db,"users",currentUser.email);
+
+
 const userSnap = await getDoc(userRef);
-  if(userSnap.data().completedVideos?.video1){
-    alert("Reward already claimed");
-    return;
-  }
 
 
-window.location.href="dashboard.html";
+
+if(!userSnap.exists()){
+alert("User not found");
 return;
-  }
-  btn.disabled = true;
-  
+}
 
-if(userSnap.exists()){
 
-const currentBalance = Number(userSnap.data().balance || 0);
 
-await updateDoc(userRef,{
-balance: currentBalance + 1000
-});
-  await updateDoc(userRef,{
-  [`completedVideos.video1`]: true
-});
-  console.log("saved");
-  
-  btn.innerHTML = "Reward Claimed";
+if(userSnap.data().completedVideos?.video1 === true){
 
-alert("Congratulations! 1000 PKR Added Successfully.");
-
-window.location.href = "dashboard.html";
+alert("Reward already claimed");
+return;
 
 }
 
-};
+
+
+let currentBalance = Number(userSnap.data().balance || 0);
+
+
+
+await updateDoc(userRef,{
+
+balance: currentBalance + 1000,
+
+"completedVideos.video1": true
+
+});
+
+
+
+btn.disabled=true;
+
+btn.innerHTML="Reward Claimed";
+
+
+alert("Congratulations! 1000 PKR Added Successfully.");
+
+
+window.location.href="dashboard.html";
+
+
+}
+
 
 
 return;
+
 
 }
 
