@@ -1,1 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TaskNest Admin</title>
 
+<style>
+body{
+margin:0;
+padding:20px;
+font-family:Arial,sans-serif;
+background:#0f172a;
+color:white;
+}
+
+.container{
+max-width:700px;
+margin:auto;
+}
+
+.card{
+background:#1e293b;
+padding:15px;
+margin-bottom:15px;
+border-radius:10px;
+}
+
+button{
+padding:10px 20px;
+background:#22c55e;
+border:none;
+border-radius:8px;
+color:white;
+cursor:pointer;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Admin Panel</h1>
+
+<div id="requests">
+Loading...
+</div>
+
+</div>
+<script type="module">
+
+import { db } from "./firebase.js";
+
+import {
+collection,
+getDocs,
+doc,
+updateDoc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+let html = "";
+
+const snapshot = await getDocs(collection(db,"payments"));
+
+snapshot.forEach((item)=>{
+
+const data = item.data();
+
+html += `
+<div class="card">
+
+<h3>${data.email}</h3>
+
+<p>Plan: ${data.plan}</p>
+
+<p>Deposit: PKR ${data.deposit}</p>
+
+<p>Status: ${data.status}</p>
+
+<button onclick="approve('${data.email}')">
+Approve
+</button>
+
+</div>
+`;
+
+});
+
+document.getElementById("requests").innerHTML = html;
+
+window.approve = async function(email){
+
+await updateDoc(doc(db,"selectedPlans",email),{
+status:"Active"
+});
+
+alert("Plan Activated Successfully");
+
+location.reload();
+
+}
+
+</script>
+
+</body>
+</html>
+  
