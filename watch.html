@@ -146,6 +146,10 @@ btn.innerHTML = "Claim Reward";
 btn.onclick = async function(){
   const userRef = doc(db, "users", currentUser.email);
 const userSnap = await getDoc(userRef);
+  if(userSnap.data().completedVideos?.video1){
+    alert("Reward already claimed");
+    return;
+  }
 
 if(userSnap.exists() && userSnap.data().completedVideos?.video1){
 alert("You have already claimed this reward.");
